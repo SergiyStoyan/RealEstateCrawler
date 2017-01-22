@@ -8,7 +8,7 @@
 //Copyright: (C) 2012, Sergey Stoyan
 //********************************************************************************************
 
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_NOTICE & ~E_USER_NOTICE);
 set_time_limit(0);
 ini_set('memory_limit', '-1');
 
