@@ -1,0 +1,86 @@
+
+
+BODY, TD { font-family : arial, sans-serif; font-size : 13px; color : #000000; }
+TH { font-family : arial, sans-serif; font-size : 13px;}
+A { color : #0000ff; font-family : arial, sans-serif; font-weight: normal; text-decoration: none; }
+A:hover { font-family : arial, sans-serif; font-weight: normal; text-decoration: underline;}
+
+
+.menu { background-color : #f0f0d0;}
+.menu td{  font-style: normal; text-align1:center; padding-left:5; padding-right:5;}
+.menu a{color : #003322; font-weight1 : bold;}
+.menu a:hover{color:#a00040;font-weight1 : bold;}
+
+.selected_item { font-weight : bold; font-style: normal; text-align1:center; color:#700000; background-color : #ffffff; }
+.selected_item a{color : #a00040; font-weight : bold; }
+
+.menu2 { background-color1:#f4fff0; margin: 0px; padding:0px; color1:#ff0000; font-weight1:bold; border-bottom1:1px solid #d0d090; border-top1:1px solid #d00080;}
+.menu2 td{ margin: 0px;padding:0px; color:#d00080;  }
+.menu2 table{margin: 0px;padding:0px; color1:#ff0000; border-bottom1:1px solid #00ff00;}
+.menu2 td:hover{background-color1:#f0ffd0;}
+
+
+.edit {background-color : #ffaa77; text-align:center; border:1px solid #d0d090;}
+.edit th{font-style: italic; background-color : #ffaa77;}
+.edit tr{background-color : #ffaa77;}
+
+.update {background-color : #daffa7; text-align:left; border:1px solid #d0d090;}
+.update input[type='text']{width: 300px; }
+
+
+.filter {border:1px solid #d0d090; background-color : #efa9bf; }
+.filter th{background-color : #f0f0d0;}
+.filter a1{font-style: normal; color : #ffd0d0;}
+.highlight_pattern{background-color : #ffd000;}
+
+.owner {border:1px solid #d0d090; margin-top: 5px; margin-bottom: 5px;}
+.owner th{text-align:left; background-color : #e0e0e0; padding-left:5px;padding-right:5px;font-weight: normal; color: #000000;}
+.owner td{padding-left:5px;padding-right:5px; background-color : #b0e07f;}
+
+.error{color : #ff0000; font-weight : bold; }
+.message{color : #00aa00; font-weight : bold; }
+
+.table_pager {font-size : 11px; color : #000000; font-family : arial, sans-serif;}
+.table_pager input {border:1px solid #e0d0d0;  font-size : 12px; }
+
+.pagination{font-size : 12px; color : #000000; font-family : arial, sans-serif; font-weight1: bold; text-decoration: none;}
+.pagination .arrow{font-size : 13px; color : #000000; font-family : arial, sans-serif; font-weight1: bold; text-decoration: none;}
+.pagination .selected_page {background-color : #ffffda; font-weight1 : bold;font-size : 12px; }
+.pagination1 a:hover{background-color : #ffffda;}
+
+.list {border:1px solid #d0d090; margin-top: 5px; margin-bottom: 5px; word-wrap1: break-word; word-break1: break-all; white-space: nowrap}
+.list th{text-align:left; padding-left:5px; padding-right:5px; background-color: #f0f6a0; font-weight: normal; white-space: nowrap}
+.list td{padding-left:5px; padding-right:5px; word-wrap1: break-word; word-break1: break-all; }
+.list th a{color : #000000; font-weight: normal;}
+.list tr.rowodd {background-color: #ffffff;}
+.list tr.roweven {	background-color: #f9f9df;}
+.list tr.edit {background-color : #ffaa77; text-align:left;}
+.list tr:hover{ background-color : #ffefd0; text-align:left;}
+.list .sortcol {cursor: pointer; padding-right: 20px; background-repeat: no-repeat;	background-position: right center;}
+.list .sortasc {background-color: #ddff77;	background-image: url(base/up.gif);}
+.list .sortdesc {background-color: #ddff77;	background-image: url(base/down.gif);}
+.list .nosort {cursor: default;}
+.list th.resize-handle-active {cursor: e-resize;}
+div.resize-handle {cursor: e-resize; width: 2px; border-right: 1px dashed #1E90FF; position:absolute; top:0; left:0;}
+
+
+
+
+
+.output td {border: 1px solid #d0f0f0; padding: 5px; }
+.output th {background-color: #fbfbfb;color: #3e7984; border: 1px solid #d0f0f0; padding: 5px; white-space1: nowrap; font-weight:normal; }
+.output tr:hover1{ background-color : #aaff99;}
+.output {BORDER1: 1px solid #e0f6f0; background-color : #ffffff; cellpadding: 5px;border-collapse: collapse; width1:100%;}
+
+hr {border: 1px solid #88aacc; }
+
+
+h4 {color: #ee6644; font-size: 30px; font-weight : bold;}
+
+.input td {border: 0px; padding: 5px; vertical-align:top}
+.input th {background-color1: #e0a7b4; color: #d980a4; color1: #d760a0; border: 0px; padding: 5px; white-space: nowrap;  font-weight1:normal; vertical-align:bottom; height:auto;}
+
+
+
+.output_div{background-color: #e0e9fe; font-weight: normal; white-space: nowrap; width:100%;}
+.output_collecting_still_label {text-decoration: blink; color:#009600; position:fixed; top:0; font-weight: bold; font-size:xx-large; opacity: 0.5;}

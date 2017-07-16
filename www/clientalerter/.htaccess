@@ -1,0 +1,6 @@
+AuthType Basic
+AuthName "clientalerter"
+AuthUserFile "/home/crawler/.htpasswds/public_html/clientalerter/passwd"
+require valid-user
+
+DirectoryIndex index.php
