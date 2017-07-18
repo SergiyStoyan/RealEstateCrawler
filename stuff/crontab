@@ -17,5 +17,5 @@ MAILTO=root
 27 * * * * crawler /usr/bin/php /home/crawler/app/parser.php >/dev/null
 31 1 * * * crawler /usr/bin/php /home/crawler/app/watcher.php >/dev/null
 */5 * * * * crawler /usr/bin/php /home/crawler/app/manager.php >/dev/null
-48 0 * * * crawler /usr/bin/php /home/crawler/app/alert_sender.php >/dev/null
+48 * * * * crawler /usr/bin/php /home/crawler/app/alert_sender.php >/dev/null
 #3 3 * * * crawler /usr/bin/php /home/crawler/app/exporter.php >/dev/null
