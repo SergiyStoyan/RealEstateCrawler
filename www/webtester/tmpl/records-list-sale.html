@@ -1,0 +1,92 @@
+<table class="records" width="100%">
+	<col width="85%">
+	<col width="15%">
+<!--	<tr>
+		<th>crawled</th>
+		<th>parsed</th>
+	</tr> -->
+{{#records}}
+	<tr id="{{id}}">
+		<td class="record">
+			{{#image_path}}<a class="frame_target" href="{{url}}"><img src="/~crawler/images/{{image_path}}"></a>{{/image_path}}
+			<table class="addata">
+				<tr><th>id</th><td>{{id}}</td></tr>
+				<tr><th>_state</th><td>{{_state}}</td></tr>
+				<tr><th>crawl_time</th><td>{{crawl_time}}</td></tr>
+				<tr><th>publish_date</th><td>{{publish_date}}</td></tr>
+			</table>
+			<hr>
+			<dl>
+				<dt>url</dt>
+					<dd><a class="frame_target" href="{{url}}">{{url}}</a></dd>
+				<dt>headline</dt>
+					<dd class="show_tags">{{headline}}</dd>
+					<dd class="strip_tags">{{headline_stripped}}</dd>
+				<dt>address</dt>
+					<dd class="show_tags">{{address}}</dd>
+					<dd class="strip_tags">{{address_stripped}}</dd>
+				<dt>description</dt>
+					<dd class="show_tags">{{description}}</dd>
+					<dd class="strip_tags">{{description_stripped}}</dd>
+				<dt>agent</dt>
+					<dd class="show_tags">{{agent}}</dd>
+					<dd class="strip_tags">{{agent_stripped}}</dd>
+			</dl>
+		</td>
+		<td class="record">
+			<dl>
+				<dt><span dtype="price" class="{{#has_highlight_price}}has_highlight{{/has_highlight_price}}">price</span></dt>
+					<dd dtype="price" class="highlight"><div>
+						<div>{{& highlight_price}}</div><hr>
+					</div></dd>
+					<dd>{{price}}</dd>
+				<dt><span dtype="is_sold" class="{{#has_highlight_is_sold}}has_highlight{{/has_highlight_is_sold}}">is_sold</span></dt>
+					<dd dtype="is_sold" class="highlight"><div>
+						<div>{{& highlight_is_sold}}</div><hr>
+					</div></dd>
+					<dd>{{is_sold}}</dd>
+				<dt><span dtype="type" class="{{#has_highlight_type}}has_highlight{{/has_highlight_type}}">type</span></dt>
+					<dd dtype="type" class="highlight"><div>
+						<div>{{& highlight_type}}</div><hr>
+					</div></dd>
+					<dd>{{type}}</dd>
+				<dt>category</dt>
+					<dd>{{category}}</dd>
+				<dt><span dtype="status" class="{{#has_highlight_status}}has_highlight{{/has_highlight_status}}">status</span></dt>
+					<dd dtype="status" class="highlight"><div>
+						<div>{{& highlight_status}}</div><hr>
+					</div></dd>
+					<dd>{{status}}</dd>
+				<dt><span dtype="bedroom_number" class="{{#has_highlight_bedroom_number}}has_highlight{{/has_highlight_bedroom_number}}">bedroom</span></dt>
+					<dd dtype="bedroom_number" class="highlight"><div>
+						<div>{{& highlight_bedroom_number}}</div><hr>
+					</div></dd>
+					<dd>{{bedroom_number}}</dd>
+				<dt><span dtype="features" class="{{#has_highlight_features}}has_highlight{{/has_highlight_features}}">features</span></dt>
+					<dd dtype="features" class="highlight"><div>
+						<div>{{& highlight_features}}</div><hr>
+					</div></dd>
+					<dd>{{features}}</dd>
+				<dt><span dtype="tenure" class="{{#has_highlight_tenure}}has_highlight{{/has_highlight_tenure}}">tenure</span></dt>
+					<dd dtype="tenure" class="highlight"><div>
+						<div>{{& highlight_tenure}}</div><hr>
+					</div></dd>
+					<dd class="show_tags">{{tenure}}</dd>
+					<dd class="strip_tags">{{tenure}}</dd>
+				<hr>
+				<dt>postcode</dt>
+					<dd>{{postcode}}</dd>
+				<dt>county</dt>
+					<dd>{{county}}</dd>
+				<dt>town</dt>
+					<dd>{{town}}</dd>
+				<dt>street</dt>
+					<dd>{{street}}</dd>
+			</dl>
+		</td>
+	</tr>
+{{/records}}
+{{^records}}
+	No records in the database.
+{{/records}}
+</table>

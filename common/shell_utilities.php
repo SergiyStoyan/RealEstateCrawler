@@ -25,7 +25,11 @@ class Shell
 	static public function GetCommandOpt($opt, $default_value_if_exists=true)
 	{
 		global $argv;
-		isset($argv) or trigger_error("Command line parameters are not acessible.");
+		if(!isset($argv))
+		{
+			trigger_error("Command line parameters are not accessible.");
+			return [];
+		}
 		foreach($argv as $a) 
 		{
 			if(preg_match("@^-$opt(?:=(.*)|$)@s", $a, $res)) 
@@ -34,13 +38,17 @@ class Shell
 				else return $default_value_if_exists;
 			}
 		}
-		return null;
+		return [];
 	}
 	
 	static public function GetCommandOpts()
 	{
 		global $argv;
-		isset($argv) or trigger_error("Command line paramters are not accessible.");
+		if(!isset($argv))
+		{
+			trigger_error("Command line parameters are not accessible.");
+			return [];
+		}
 		$opts = array();
 		foreach($argv as $a) if(preg_match("@^-([a-z])(?:=([^\s]*))?@is", $a, $res)) $opts[$res[1]] = isset($res[2])?$res[2]:null;
 		return $opts;
@@ -118,9 +126,12 @@ class Shell
 	
 	static public function GetProcessOwner() 
 	{
-		if(!function_exists('posix_getpwuid')) return "-- not defined --";
-		$pu = posix_getpwuid(posix_geteuid());
-		return $pu['name'];
+		if(function_exists('posix_getpwuid')){
+			$pu = posix_getpwuid(posix_geteuid());
+			return $pu['name'];			
+		}		
+		return exec('whoami');
+		//if(!function_exists('posix_getpwuid')) return "-- not defined --";
 	}	
 	
 	static public function GetYesOrNoFromConsole() 

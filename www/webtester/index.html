@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<link href="css/smoothness/jquery-ui-1.9.1.custom.css" rel="stylesheet">
+	<script src="js/jquery-1.8.2.js"></script>
+	<script src="js/jquery-ui-1.9.1.custom.js"></script>
+
+
+	<script type="text/javascript" src="js/jquery.mustache.js"></script>
+	<script type="text/javascript" src="js/jquery.json.min.js"></script>
+	<script type="text/javascript" src="js/jstorage.js"></script>
+	<script type="text/javascript" src="js/jquery.ba-resize.min.js"></script>
+	<script type="text/javascript" src="js/jquery.imagesloaded.min.js"></script>
+	<script type="text/javascript" src="js/jquery.imagefit-0.2.js"></script>
+	<link type="text/css" href="index.css" rel="stylesheet" />
+	<script type="text/javascript"src="index.js"></script>
+</head>
+<body>
+	<div id="search_wrap">
+		<div id="search_header">
+			<div id="search_menu">
+				<p class="new_search"><a href="#">new search</a></p>
+				<p class="settings"><a href="#">settings</a></p>
+<!--				<p class="by_id"><a href="#">by record id</a></p>
+				<p class="by_crawler"><a href="#">by crawler/state</a></p> -->
+			</div>
+			<div id="search_forms">
+				<form id="settings">
+					<input type="text" size="5" name="results_percent" value="50">%
+					<input type="submit" class="results_percent" value="Results-Frame split">
+					<input type="submit" class="strip_tags" value="Strip html tags">
+					<input type="submit" class="show_tags" value="Show html tags">
+					<hr>
+				</form>
+				<form id="search_form_by_id">
+					<input type="text" size="40" name="id">
+					<input type="submit" value="by id">
+					<hr>
+				</form>
+				<form id="search_form_by_crawler">
+					<select name="crawler">
+						<option value="">-crawler,state,result-</option>
+					</select>
+					<select name="state">
+						<option value="">-all-</option>
+					</select>
+					<select name="limit">
+						<option>10</option>
+						<option>20</option>
+						<option>50</option>
+						<option value="0">-all-</option>
+					</select>
+					<input type="submit" class="random" value="random">
+					<input type="submit" class="list" value="list">
+					<a href="#" id="xfilter_opener">extra filters</a>
+					<div id="xfilter" style="display: none;">
+						status: <input type="text" size="40" name="xfilter_status">
+						<input type="checkbox" name="xfilter_status_nonempty" value="1"> NON-EMPTY<br>
+					</div>
+					<hr>
+				</form>
+			</div>
+			<div id="search_resultinfo">
+				<span id="search_response"></span>
+				<span id="search_paginate"></span>
+			</div>
+		</div>
+		<div id="search_results">
+		</div>
+	</div>
+	<div id="vertical_separator"><div></div></div>
+	<div id="original_page_wrap">
+		<iframe id="original_page"></iframe>
+	</div>
+	<div id="original_page_wrap_overlay">
+	</div>
+</body>

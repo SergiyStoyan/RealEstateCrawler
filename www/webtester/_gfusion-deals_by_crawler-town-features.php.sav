@@ -1,0 +1,65 @@
+<?php
+
+
+require_once 'google-api-php-client/src/Google_Client.php';
+require_once 'google-api-php-client/src/contrib/Google_FusiontablesService.php';
+include ('lib/db.php');
+include ('_gfusion-_lib.php');
+
+
+const TABLE_ID= '1cQo3XMkmidvQSHsRJ-7VxbsPLI-AsawgUQPDGgM';
+
+$features=array('basement','gifted_deposit','no_chain','no_stamp_duty',
+		'attic','vacant_posession','outbuildings','end_of_terrace',
+		'short_lease','under_offer','garage','corner_plot',
+		'planning_permission','freehold','leasehold','share_of_freehold');
+
+
+
+const CLIENT_ID = '594437102200.apps.googleusercontent.com';
+const FT_SCOPE = 'https://www.googleapis.com/auth/fusiontables';
+const SERVICE_ACCOUNT_NAME = '594437102200@developer.gserviceaccount.com';
+const KEY_FILE = '0de0d369baea92b7596db90556c0d68b4a3a1fd7-privatekey.p12';
+const APPLICATION_NAME = 'crawler-stats';
+const DEVELOPER_KEY = 'AIzaSyB-xCJ02A98uFSXh9Yw_9KAdt1VHzDb48Y';
+
+$client = new Google_Client();
+$client->setApplicationName(APPLICATION_NAME);
+$client->setClientId(CLIENT_ID);
+$client->setDeveloperKey(DEVELOPER_KEY);
+
+//add key
+$key = file_get_contents(KEY_FILE);
+$client->setAssertionCredentials(new Google_AssertionCredentials(
+    SERVICE_ACCOUNT_NAME,
+    array(FT_SCOPE),
+    $key)
+);
+
+//$dSrv= new Google_FusiontablesService($client);
+//$dSrv->query->sql("delete from ".TABLE_ID);
+
+
+$re_csv="";
+$today=gmdate("Y-m-d");
+
+foreach (getCrawlers() as $cr) {
+	foreach ($features as $f) {
+//		echo("SELECT  town, COUNT(*) as c FROM products".$cr['prefix']."_".$cr['id']." WHERE features like '%".$f."%' GROUP BY town\n");
+		$q=mysql_query("SELECT  town, COUNT(*) as c FROM products".$cr['prefix']."_".$cr['id']." WHERE features like '%".$f."%' GROUP BY town");
+		if (!$q) continue;
+		while ($r=mysql_fetch_assoc($q))
+			$re_csv .= getCSV( array( $today, $cr['id'], $r['town'], $f, $r['c']) );
+	}
+}
+
+//echo ($re_csv);
+//exit;
+$uSrv= new Google_FusiontablesUploadService($client);
+$iSR= $uSrv->import;
+
+$iSR->import(TABLE_ID, $re_csv);
+
+
+
+?>

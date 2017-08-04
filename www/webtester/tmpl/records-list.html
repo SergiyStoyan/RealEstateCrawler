@@ -1,0 +1,52 @@
+<table width="100%">
+	<col width="85%">
+	<col width="15%">
+	<tr>
+		<th>crawled</th>
+		<th>parsed</th>
+	</tr>
+{{#records}}
+	<tr id="{{id}}">
+		<td>
+			{{#image_path}}<a class="frame_target" href="{{url}}"><img src="/~crawler/images/{{image_path}}"></a>{{/image_path}}
+			<dl>
+				<dt>id</dt>
+					<dd>{{id}}</dd>
+				<dt>url</dt>
+					<dd><a class="frame_target" href="{{url}}">{{url}}</a></dd>
+				<dt>headline</dt>
+					<dd class="show_tags">{{headline}}</dd>
+					<dd class="strip_tags">{{headline_stripped}}</dd>
+				<dt>description</dt>
+					<dd class="show_tags">{{description}}</dd>
+					<dd class="strip_tags">{{description_stripped}}</dd>
+			</dl>
+		</td>
+		<td>
+			<dl>
+				<dt>price</dt>
+					<dd>{{price}}</dd>
+				<dt>type</dt>
+					<dd>{{type}}</dd>
+				<dt>status</dt>
+					<dd>{{status}}</dd>
+				<dt>bedroom</dt>
+					<dd>{{bedroom_number}}</dd>
+				<dt>postcode</dt>
+					<dd>{{postcode}}</dd>
+				<dt>county</dt>
+					<dd>{{county}}</dd>
+				<dt>town</dt>
+					<dd>{{town}}</dd>
+				<dt>street</dt>
+					<dd>{{street}}<hr></dd>
+				<dt>state</dt>
+					<dd>{{state}}</dd>
+			</dl>
+		</td>
+	</tr>
+{{/records}}
+{{^records}}
+	No records in the database.
+{{/records}}
+</table>
