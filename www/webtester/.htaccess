@@ -1,5 +1,1 @@
-AuthName "webtester"
-AuthType Basic
-require valid-user
-AuthUserFile /home/maker/webtester-service.pwd
-AuthGroupFile /home/maker/webtester-service.grp
+DirectoryIndex index.html
