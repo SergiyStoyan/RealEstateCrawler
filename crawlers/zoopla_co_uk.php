@@ -57,10 +57,10 @@ class zoopla_co_uk extends Crawler6_3_sale
 		$id = Downloader::Request()->Seed();
 		//$image_url = Downloader::Xpath()->ExtractImageUrl("//img[@itemprop='photo']");	
 		$image_url = false;	
-		$headline = Downloader::Xpath()->GetJoinedInnerHtml('//*[@class="listing-details-h1" or @class="listing-details-price text-price"]');
-		$description = Downloader::Xpath()->GetJoinedInnerHtml('//div[@itemprop="description"]');		
-		$address = Downloader::Xpath()->GetJoinedInnerHtml('//div[@class="listing-details-address"]');		
-		$agent = Downloader::Xpath()->GetJoinedInnerHtml('//div[@id="listings-agent"]');
+		$headline = Downloader::Xpath()->GetJoinedInnerHtml('//*[@class="ui-prop-summary__title ui-subsection-title" or @class="ui-pricing"]');
+		$description = Downloader::Xpath()->GetJoinedInnerHtml('//*[@class="dp-features" or @class="dp-description"]');		
+		$address = Downloader::Xpath()->GetJoinedInnerHtml('//*[@class="ui-prop-summary__address"]');		
+		$agent = Downloader::Xpath()->GetJoinedInnerHtml('//*[@class="ui-agent__text" or @class="ui-agent__tel ui-agent__text"]');
 	}
 }
 
