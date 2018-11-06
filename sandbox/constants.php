@@ -30,6 +30,8 @@ class Constants1 extends Constants_
 	const LogUrl = "http://87.117.228.105/~crawler/logs6_2";
 	const ImageBaseUrl = "http://87.117.228.105/~crawler/images6_2";
 	const DefaultImageName = "property-deal-image-coming-soon.jpg";
+    //const DataBaseUser = "";//must be defined in constants_admin.php and constants_maker.php ::Constants_
+	//const DataBasePassword = "";//must be defined in constants_admin.php and constants_maker.php ::Constants_
 }
 
 class Constants extends Constants_
@@ -50,6 +52,8 @@ class Constants extends Constants_
 	const LogUrl = "http://87.117.228.105/~crawler/logs6_2";
 	const CacheDirectory = "/home/crawler/cache6_2/";
 	const DefaultImageName = "property-deal-image-coming-soon.jpg";
+    //const DataBaseUser = "";//must be defined in constants_admin.php and constants_maker.php ::Constants_
+	//const DataBasePassword = "";//must be defined in constants_admin.php and constants_maker.php ::Constants_
 }
 
 ?>
