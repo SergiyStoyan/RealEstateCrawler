@@ -98,7 +98,7 @@ abstract class Engine
 	}
 	
 	//**************************************************************************************************************
-	//functions to be overwritten
+	//functions to be overridden
 	//**************************************************************************************************************
 	abstract protected function Initialize();
 	abstract public function SaveProduct(Product $product);				

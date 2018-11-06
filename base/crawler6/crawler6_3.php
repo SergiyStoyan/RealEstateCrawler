@@ -1,4 +1,4 @@
-<?
+﻿<?
 //********************************************************************************************
 //Author: Sergey Stoyan, CliverSoft.com
 //        http://cliversoft.com
@@ -182,7 +182,7 @@ abstract class Crawler6_3 extends Crawler6
 	}
 		
 	//**************************************************************************************************************
-	//functions to be overwritten
+	//functions to be overridden
 	//**************************************************************************************************************	
 	abstract protected function Initialize();
 	
