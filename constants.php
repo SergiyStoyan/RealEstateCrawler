@@ -24,6 +24,8 @@ class Constants1 extends Constants_
 	const LogUrl = "http://87.117.228.105/~crawler/logs6";
 	const ImageBaseUrl = "http://87.117.228.105/~crawler/images6";
 	const DefaultImageName = "property-deal-image-coming-soon.jpg";
+    //const DataBaseUser = "";//must be defined in Constants_
+	//const DataBasePassword = "";//must be defined in Constants_
 }
 
 class Constants extends Constants_
@@ -37,7 +39,9 @@ class Constants extends Constants_
 	const LogDirectory = "/home/crawler/public_html/logs/";
 	const LogUrl = "http://87.117.228.105/~crawler/logs";
 	const CacheDirectory = "/home/crawler/cache/";
-	const DefaultImageName = "property-deal-image-coming-soon.jpg";
+	const DefaultImageName = "property-deal-image-coming-soon.jpg";	
+    //const DataBaseUser = "";//must be defined in Constants_
+	//const DataBasePassword = "";//must be defined in Constants_
 }
 
 ?>
