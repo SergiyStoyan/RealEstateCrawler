@@ -36,7 +36,7 @@ abstract class Crawler
 			
 	final public function Set($path, $value)
 	{
-		if($this->Engine()->Crawler()) Logger::Quit("Crawler object has been already created and so no key '$path' can be set.", 1);
+		if($this->Engine()->Crawler()) Logger::Quit("Crawler object has been already created and so key '$path' cannot be set.", 1);
 		if(!$path)
 		{
 			if($this->configuration) Logger::Quit("Configuration is already set and its key collection cannot be redefined:\n".Misc::GetArrayAsString($this->configuration), 1);
