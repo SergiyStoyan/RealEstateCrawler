@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `crawlers` (
   `id` varchar(32) NOT NULL,
   `state` enum('enabled','disabled','debug') NOT NULL DEFAULT 'debug',
   `site` varchar(64) NOT NULL,
-  `command` enum('','stop','restart') NOT NULL DEFAULT '' COMMENT 'used while debugging/updating crawler',
+  `command` enum('','stop','restart','force') NOT NULL DEFAULT '' COMMENT 'used while debugging/updating crawler',
   `run_time_span` int(11) NOT NULL DEFAULT '86400' COMMENT 'in seconds',
   `crawl_product_timeout` int(11) NOT NULL DEFAULT '600' COMMENT 'if no product was crawled for the last specified number of seconds, an error is arisen',
   `yield_product_timeout` int(11) NOT NULL DEFAULT '259200' COMMENT 'if no new product was added for the last specified number of seconds, an error is arisen',

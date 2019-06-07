@@ -47,7 +47,16 @@ class Product
 		
 	final public function GetRawDataAsJson()
 	{
-		$rdj = json_encode($this->RawData) or Logger::Quit("json_encode error: ".json_last_error());
+		//$rdj = json_encode($this->RawData) or Logger::Quit("json_encode error: ".json_last_error());
+		
+		//to avoid error: invalid utf-8 sequence
+		//$rdj = json_encode(mb_convert_encoding($this->RawData, "UTF-8", "UTF-8")) or Logger::Quit("json_encode error: ".json_last_error());
+		$rd = array();
+		foreach($this->RawData as $k=>$v)
+			//$rd[$k] = htmlentities($v, ENT_QUOTES, 'utf-8', FALSE);
+			//$rd[$k] = iconv("UTF-8", "UTF-8//IGNORE", $v);
+			$rd[$k] = mb_convert_encoding($v, "UTF-8", "UTF-8");
+		$rdj = json_encode($rd) or Logger::Quit("json_encode error: ".json_last_error());
 		return $rdj;
 	}
 	

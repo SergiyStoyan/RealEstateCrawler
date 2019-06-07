@@ -18,12 +18,16 @@ Shell::ExitIfTheScriptRunsAlready();
 class Mode extends ModeTemplate
 {
    	const MAIN = null;
-   	const FORCE_CRAWLER = "c";
+   	const FORCE_CRAWLER = "f";
+   	const RESTART_CRAWLER = "r";
+   	const STOP_CRAWLER = "s";
 }
 
 Mode::PrintUsage(array(
-	Mode::MAIN=>" - main mode meaning triggering crawlers along their schedulle",
-	Mode::FORCE_CRAWLER=>"=<crawler_id> - force <crawler_id> to run ignoring its run_time_span and crawler process quota"
+	Mode::MAIN=>" - main mode meaning triggering crawlers along their schedule",
+	Mode::FORCE_CRAWLER=>"=<crawler_id> - force <crawler_id> to run ignoring its run_time_span and crawler process quota",
+	Mode::RESTART_CRAWLER=>"=<crawler_id> - restart <crawler_id> to run ignoring its run_time_span and crawler process quota",
+	Mode::STOP_CRAWLER=>"=<crawler_id> - stop <crawler_id>",
 	)
 );
 
@@ -62,6 +66,43 @@ function SendMessage($m, $crawler_id=null, $error=true, $admin_emails=null)
 Logger::Write2("Process owner: ".Shell::GetProcessOwner());
 Logger::Write2("STATRED");
 Logger::Write2("MODE: ".Mode::Name());
+
+////////////////////////////////////////////////////////////
+//Setting MODE
+////////////////////////////////////////////////////////////
+
+switch(Mode::This())
+{
+	case Mode::FORCE_CRAWLER:
+		Logger::$CopyToConsole = true;
+		$crawler_id =  Shell::GetCommandOpt("f");
+		if(!Db::GetSingleValue("SELECT id FROM crawlers WHERE state<>'disabled' AND id='$crawler_id'")) Logger::Error_("$crawler_id does not exist or it is disabled.");
+		Db::Query("UPDATE crawlers SET command='force' WHERE id='$crawler_id'");
+		
+		break;
+	case Mode::RESTART_CRAWLER:
+		Logger::$CopyToConsole = true;
+		$crawler_id =  Shell::GetCommandOpt("r");
+		if(!Db::GetSingleValue("SELECT id FROM crawlers WHERE state<>'disabled' AND id='$crawler_id'")) Logger::Error_("$crawler_id does not exist or it is disabled.");
+		Db::Query("UPDATE crawlers SET command='restart' WHERE id='$crawler_id'");
+		
+		break;	
+	case Mode::STOP_CRAWLER:
+		Logger::$CopyToConsole = true;
+		$crawler_id =  Shell::GetCommandOpt("s");
+		if(!Db::GetSingleValue("SELECT id FROM crawlers WHERE id='$crawler_id'")) Logger::Error_("$crawler_id does not exist.");
+		Db::Query("UPDATE crawlers SET command='stop' WHERE id='$crawler_id'");
+		
+		break;
+	case Mode::MAIN:	
+			
+		break;			
+	default:		
+		
+		Logger::Quit("Unknown mode: ".Mode::This());	
+			
+		break;
+}
 
 $crawler_process_number = 0;
 ////////////////////////////////////////////////////////////
@@ -193,18 +234,6 @@ foreach($result as $r)
 	$running_crawlers_ms[] = "$crawler_id, process id: ".$r['_last_process_id'];	
 }
 if(count($running_crawlers_ms)) Logger::Write("Already running: ".Misc::GetArrayAsString($running_crawlers_ms));
-
-////////////////////////////////////////////////////////////
-//MODE: forcing crawler
-////////////////////////////////////////////////////////////
-
-if(Mode::This() == Mode::FORCE_CRAWLER)
-{
-	Logger::$CopyToConsole = true;
-	$crawler_id =  Shell::GetCommandOpt("c");
-	if(!Db::GetSingleValue("SELECT id FROM crawlers WHERE state<>'disabled' AND command<>'stop' AND id='$crawler_id'")) Logger::Error_("$crawler_id does not exist or it is disabled or stopped.");
-	Db::Query("UPDATE crawlers SET command='force' WHERE id='$crawler_id'");
-}
 
 ////////////////////////////////////////////////////////////
 //Starting new sessions

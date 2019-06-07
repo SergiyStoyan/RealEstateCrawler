@@ -109,7 +109,13 @@ class Xpath
 		if(!$xpath_nodes) return;		
 		foreach($xpath_nodes as $n) 
 		{
-			if(strtolower($n->nodeName) == "a") $urls[] = $n->attributes->getNamedItem("href")->nodeValue;
+			//$t = strtolower($n->nodeName);
+			//if($t == "a" or $t == "link") 
+			if($n->attributes)
+			{
+				$hrefs = $n->attributes->getNamedItem("href");
+				if($hrefs) $urls[] = $hrefs->nodeValue;
+			}
 			$this->_ExtractUrls($n->childNodes, $urls);
 		}
 	}			

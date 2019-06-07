@@ -33,10 +33,10 @@ class zoopla_co_uk extends Crawler6_3_sale
 		
 	function GetInitialListItems()
 	{ 
-		return array('http://www.zoopla.co.uk/for-sale/property/england/', 
-			'http://www.zoopla.co.uk/for-sale/property/scotland/',
-			'http://www.zoopla.co.uk/for-sale/property/wales/',
-			'http://www.zoopla.co.uk/for-sale/property/northern-ireland/'
+		return array('https://www.zoopla.co.uk/for-sale/property/england/', 
+			'https://www.zoopla.co.uk/for-sale/property/scotland/',
+			'https://www.zoopla.co.uk/for-sale/property/wales/',
+			'https://www.zoopla.co.uk/for-sale/property/northern-ireland/'
 		);
 	}
 	
@@ -57,10 +57,11 @@ class zoopla_co_uk extends Crawler6_3_sale
 		$id = Downloader::Request()->Seed();
 		//$image_url = Downloader::Xpath()->ExtractImageUrl("//img[@itemprop='photo']");	
 		$image_url = false;	
-		$headline = Downloader::Xpath()->GetJoinedInnerHtml('//*[@class="ui-prop-summary__title ui-subsection-title" or @class="ui-pricing"]');
+		$headline = Downloader::Xpath()->GetJoinedInnerHtml('//*[@class="dp-sidebar-wrapper__summary"]');
 		$description = Downloader::Xpath()->GetJoinedInnerHtml('//*[@class="dp-features" or @class="dp-description"]');		
-		$address = Downloader::Xpath()->GetJoinedInnerHtml('//*[@class="ui-prop-summary__address"]');		
-		$agent = Downloader::Xpath()->GetJoinedInnerHtml('//*[@class="ui-agent__text" or @class="ui-agent__tel ui-agent__text"]');
+		$address = Downloader::Xpath()->GetJoinedInnerHtml('//h2[@class="ui-property-summary__address"]');		
+		$agent = Downloader::Xpath()->GetJoinedInnerHtml('//*[@class="dp-sidebar-wrapper__contact"]//*[@class="ui-agent__text" or @class="ui-agent__tel ui-agent__text"]');
+		//$agent = Downloader::Xpath()->GetJoinedInnerHtml('//*[@class="dp-sidebar-wrapper__contact"]');
 	}
 }
 

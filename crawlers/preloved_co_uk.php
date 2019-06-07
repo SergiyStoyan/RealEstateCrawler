@@ -20,17 +20,18 @@ class preloved_co_uk extends Crawler6_3_sale
 		
 	function GetInitialListItems()
 	{ 
-		return 'http://www.preloved.co.uk/search?keyword=&orderBy=mostRecent&location=&lat=&lon=&distance=&sectionId=3381&minimumPrice=&maximumPrice=&advertType=forsale&advertiserType=&promotionType=';
+		return 'https://www.preloved.co.uk/search?keyword=&orderBy=mostRecent&location=&lat=&lon=&distance=&sectionId=3381&minimumPrice=&maximumPrice=&advertType=forsale&advertiserType=&promotionType=';
 	}
 	
 	function GetListItemsFromListPage()
 	{
-		return Downloader::Xpath()->ExtractUrls('//*[@id="pagination-next-page"]');
+		//return Downloader::Xpath()->ExtractUrls('//*[@id="pagination-next-page"]'); - for some curl error the page is not loaded completely
+		return Downloader::Xpath()->ExtractUrls('//*[@rel="next"]');
 	}	
 			
 	function GetProductItemsFromListPage()
 	{
-		return Downloader::Xpath()->ExtractUrls('//div[@itemid="#product"]');
+		return Downloader::Xpath()->ExtractUrls('//*[@class="search-result__header"]');
 	}
 				
 	function ParseProductPage(
