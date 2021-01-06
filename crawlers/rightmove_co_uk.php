@@ -13,12 +13,12 @@ class ProductRequest extends Request
 {
 	protected function get_seed()
 	{
-		return Regex::GetFirstValue("@property-for-sale/property-(\d+)@is", $this->url);
+		return Regex::GetFirstValue("@properties/(\d+)@is", $this->url);
 	}	
 	
 	public static function Restore($seed)
 	{
-		return new ProductRequest("http://www.rightmove.co.uk/property-for-sale/property-$seed.html");
+		return new ProductRequest("http://www.rightmove.co.uk/properties/$seed");
 	}		
 }
 
@@ -50,7 +50,7 @@ class rightmove_co_uk extends Crawler6_3_sale
 	
 	function GetProductItemsFromListPage()
 	{
-		return Downloader::Regex()->ExtractUrls("@property-for-sale/property-\d{2,}\.html$@i");
+		return Downloader::Regex()->ExtractUrls("@properties/\d{2,}$@i");
 	}
 				
 	function ParseProductPage(
@@ -62,13 +62,17 @@ class rightmove_co_uk extends Crawler6_3_sale
 		&$agent
 	)
 	{	
-		$id = Downloader::Regex()->ExtractValueFromResponseUrl("@property-(\d+)\.html@is");
+		$id = Downloader::Regex()->ExtractValueFromResponseUrl("@properties/(\d+)@is");
 		//$image_url = Downloader::Xpath()->ExtractImageUrl("//img[@class='js-gallery-main']");
 		$image_url = false;
-		$headline =	Downloader::Xpath()->GetJoinedInnerHtml('//div[@class="row one-col property-header"]');		
-		$description = Downloader::Xpath()->GetJoinedInnerHtml('//div[@id="description"]');				
-		$address = Downloader::Xpath()->GetJoinedInnerHtml('//div[@id="primaryContent"]//div[@class="left"]//address');				
-		$agent = Downloader::Xpath()->GetJoinedInnerHtml('//div[@id="secondaryAgentDetails" or @id="requestdetails"]');
+		$headline =	Downloader::Xpath()->GetJoinedInnerHtml('//*[@id="root"]/div/div[3]/main/div[2]')
+			.Downloader::Xpath()->GetJoinedInnerHtml('//*[@id="root"]/div/div[3]/main/div[5]');		
+		$description = Downloader::Xpath()->GetJoinedInnerHtml('//*[@id="root"]/div/div[3]/main/h2[1]')
+			.Downloader::Xpath()->GetJoinedInnerHtml('//*[@id="root"]/div/div[3]/main/ul')
+			.Downloader::Xpath()->GetJoinedInnerHtml('//*[@id="root"]/div/div[3]/main/div[./h2[contains(text(), "Property description")]]/p')
+			.Downloader::Xpath()->GetJoinedInnerHtml('//*[@id="root"]/div/div[3]/main/div[./h2[contains(text(), "Property description")]]/div/div');						
+		$address = Downloader::Xpath()->GetJoinedInnerHtml('//span[@itemprop="address"]');
+		$agent = Downloader::Xpath()->GetJoinedInnerHtml('//div[./p[contains(text(), "MARKETED BY")]]');
 	}
 }
 

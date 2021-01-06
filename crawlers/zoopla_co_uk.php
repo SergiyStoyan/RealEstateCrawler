@@ -40,6 +40,12 @@ class zoopla_co_uk extends Crawler6_3_sale
 		);
 	}
 	
+	function GetListItemsFromListPage()
+	{
+		//return Downloader::Regex()->ExtractUrls("@\?pn=\d+@is");
+		return Downloader::Xpath()->ExtractUrls("//li[contains(@class, 'PaginationItemNext')]");
+	}
+	
 	function GetProductItemsFromListPage()
 	{
 		return Downloader::Regex()->ExtractUrls("@for-sale/details/\d+@is");
