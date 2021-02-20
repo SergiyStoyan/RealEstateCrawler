@@ -71,7 +71,7 @@ class rightmove_co_uk extends Crawler6_3_sale
 			.Downloader::Xpath()->GetJoinedInnerHtml('//*[@id="root"]/div/div[3]/main/ul')
 			.Downloader::Xpath()->GetJoinedInnerHtml('//*[@id="root"]/div/div[3]/main/div[./h2[contains(text(), "Property description")]]/p')
 			.Downloader::Xpath()->GetJoinedInnerHtml('//*[@id="root"]/div/div[3]/main/div[./h2[contains(text(), "Property description")]]/div/div');						
-		$address = Downloader::Xpath()->GetJoinedInnerHtml('//span[@itemprop="address"]');
+		$address = Downloader::Xpath()->GetJoinedInnerHtml('//div[@itemprop="address"]');
 		$agent = Downloader::Xpath()->GetJoinedInnerHtml('//div[./p[contains(text(), "MARKETED BY")]]');
 	}
 }
