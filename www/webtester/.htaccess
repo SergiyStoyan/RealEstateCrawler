@@ -1,1 +1,6 @@
+AuthType Basic
+AuthName "clientalerter"
+AuthUserFile "/var/www/.htpasswd"
+require valid-user
+
 DirectoryIndex index.html

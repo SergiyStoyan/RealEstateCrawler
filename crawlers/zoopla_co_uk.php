@@ -63,10 +63,13 @@ class zoopla_co_uk extends Crawler6_3_sale
 		$id = Downloader::Request()->Seed();
 		//$image_url = Downloader::Xpath()->ExtractImageUrl("//img[@itemprop='photo']");	
 		$image_url = false;	
-		$headline = Downloader::Xpath()->GetJoinedInnerHtml('//*[@class="dp-sidebar-wrapper__summary"]');
-		$description = Downloader::Xpath()->GetJoinedInnerHtml('//*[@class="dp-features" or @class="dp-description"]');		
-		$address = Downloader::Xpath()->GetJoinedInnerHtml('//h2[@class="ui-property-summary__address"]');		
-		$agent = Downloader::Xpath()->GetJoinedInnerHtml('//*[@class="dp-sidebar-wrapper__contact"]//*[@class="ui-agent__text" or @class="ui-agent__tel ui-agent__text"]');
+		//$headline = Downloader::Xpath()->GetJoinedInnerHtml('//*[@data-testid="listing-summary-details"]');
+		$headline = Downloader::Xpath()->GetJoinedInnerHtml('//*[@data-testid="price"]')."   <br>   ".Downloader::Xpath()->GetJoinedInnerHtml('//*[@data-testid="title-label"]');
+		$description = Downloader::Xpath()->GetJoinedInnerHtml('//*[@data-testid="page_features_section"]');		
+		$address = Downloader::Xpath()->GetJoinedInnerHtml('//*[@data-testid="address-label"]');		
+		$agent = Downloader::Xpath()->GetJoinedInnerHtml('//*[@data-testid="agent-details"]/div/h3');
+		if(preg_match("@(.*?)\<@is", $agent, $res))
+			$agent = $res[1];			
 		//$agent = Downloader::Xpath()->GetJoinedInnerHtml('//*[@class="dp-sidebar-wrapper__contact"]');
 	}
 }

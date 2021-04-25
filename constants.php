@@ -34,10 +34,10 @@ class Constants extends Constants_
 	const DataBase = "real_estate";
 	const AdminEmail = "sergey.stoyan@gmail.com";
 	const CrawlerProcessMaxNumber = 8;
-	const ImageDirectory = "/home/crawler/public_html/images/";
-	const ImageBaseUrl = "http://87.117.228.105/~crawler/images";
-	const LogDirectory = "/home/crawler/public_html/logs/";
-	const LogUrl = "http://87.117.228.105/~crawler/logs";
+	const ImageDirectory = "/home/crawler/images/";
+	const ImageBaseUrl = "http://92.205.23.180/images";
+	const LogDirectory = "/home/crawler/logs/";
+	const LogUrl = "http://92.205.23.180/logs";
 	const CacheDirectory = "/home/crawler/cache/";
 	const DefaultImageName = "property-deal-image-coming-soon.jpg";	
     //const DataBaseUser = "";//must be defined in constants_admin.php and constants_maker.php ::Constants_
