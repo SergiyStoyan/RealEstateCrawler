@@ -8,10 +8,13 @@
 //Copyright: (C) 2007, Sergey Stoyan
 //********************************************************************************************
 
-//these constants are used by a crawler 'maker'
+//!!!ATTENTION!!!
+//this file contains powerful db logins so must be permitted for user 'crawler' only!
+//chmod 700 
+
 class Constants_
 {
-	const DataBaseUser = "maker";
-	const DataBasePassword = "e#,aB1-^WI~P";	
+	const DataBaseUser = "crawler";
+	const DataBasePassword = "";
 }
 ?>
