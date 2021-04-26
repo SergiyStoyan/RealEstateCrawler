@@ -7,7 +7,7 @@
 //        1 February 2012
 //Copyright: (C) 2012, Sergey Stoyan
 //********************************************************************************************
-
+error_reporting(E_ALL);
 include_once("crawler6/crawler6_3.php");
 include_once("product6_sale.php");
 
