@@ -66,13 +66,19 @@ class rightmove_co_uk extends Crawler6_3_sale
 		//$image_url = Downloader::Xpath()->ExtractImageUrl("//img[@class='js-gallery-main']");
 		$image_url = false;
 		$headline =	Downloader::Xpath()->GetJoinedInnerHtml('//*[@id="root"]/div/div[3]/main/div[2]')
-			.Downloader::Xpath()->GetJoinedInnerHtml('//*[@id="root"]/div/div[3]/main/div[5]');		
+			.Downloader::Xpath()->GetJoinedInnerHtml('//*[@id="root"]/div/div[3]/main/div[5]');				
 		$description = Downloader::Xpath()->GetJoinedInnerHtml('//*[@id="root"]/div/div[3]/main/h2[1]')
 			.Downloader::Xpath()->GetJoinedInnerHtml('//*[@id="root"]/div/div[3]/main/ul')
 			.Downloader::Xpath()->GetJoinedInnerHtml('//*[@id="root"]/div/div[3]/main/div[./h2[contains(text(), "Property description")]]/p')
-			.Downloader::Xpath()->GetJoinedInnerHtml('//*[@id="root"]/div/div[3]/main/div[./h2[contains(text(), "Property description")]]/div/div');						
+			.Downloader::Xpath()->GetJoinedInnerHtml('//*[@id="root"]/div/div[3]/main/div[./h2[contains(text(), "Property description")]]/div/div');		
 		$address = Downloader::Xpath()->GetJoinedInnerHtml('//div[@itemprop="address"]');
 		$agent = Downloader::Xpath()->GetJoinedInnerHtml('//div[./p[contains(text(), "MARKETED BY")]]');
+		
+		if(!$id) $id = Downloader::Regex()->ExtractValueFromResponseUrl("@property-(\d+)@is");
+		if(!$headline) $headline = Downloader::Xpath()->GetJoinedInnerHtml('//div[@class="property-header-bedroom-and-price "]');
+		if(!$description) $description = Downloader::Xpath()->GetJoinedInnerHtml('//div[@id="description"]');
+		if(!$address) $address = Downloader::Xpath()->GetJoinedInnerHtml('//address[@itemprop="address"]');		
+		if(!$agent) $agent = Downloader::Xpath()->GetJoinedInnerHtml('//a[@id="aboutBranchLink"]');
 	}
 }
 
