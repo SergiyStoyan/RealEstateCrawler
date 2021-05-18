@@ -39,8 +39,6 @@ Logger::$CopyToConsole = true;
 include_once("common/db.php");
 include_once("common/misc.php");
 
-const RESTART_DELAY_FOR_BROKEN_CRAWLER_IN_SECS = 600;
-
 function SendMessage($m, $crawler_id=null, $error=true, $admin_emails=null)
 {	
 	if($error) Logger::Error_($m);
@@ -190,7 +188,7 @@ foreach($result as $r)
 	if($r["_last_session_state"] == "_error")
 	{
 		SendMessage("Crawler $crawler_id exited with error.$m1", $crawler_id);
-		//Db::Query("UPDATE crawlers SET _last_session_state='error', _next_start_time=ADDDATE(NOW(), INTERVAL ".RESTART_DELAY_FOR_BROKEN_CRAWLER_IN_SECS." SECOND) WHERE id='".$r['crawler_id']."'");
+		//Db::Query("UPDATE crawlers SET _last_session_state='error', _next_start_time=ADDDATE(NOW(), INTERVAL restart_delay_if_broken SECOND) WHERE id='".$r['crawler_id']."'");
 		Db::Query("UPDATE crawlers SET _last_session_state='error' WHERE id='".$r['crawler_id']."'");
 		continue;
 	}
@@ -198,7 +196,7 @@ foreach($result as $r)
 	if(!Shell::IsProcessAlive($r['_last_process_id']))
 	{
 		SendMessage("Crawler $crawler_id was broken by unknown reason.$m1", $crawler_id);
-		Db::Query("UPDATE crawlers SET _last_session_state='broken', _next_start_time=ADDDATE(NOW(), INTERVAL ".RESTART_DELAY_FOR_BROKEN_CRAWLER_IN_SECS." SECOND), _last_end_time=NOW() WHERE id='".$r['crawler_id']."'");	
+		Db::Query("UPDATE crawlers SET _last_session_state='broken', _next_start_time=ADDDATE(NOW(), INTERVAL restart_delay_if_broken SECOND), _last_end_time=NOW() WHERE id='".$r['crawler_id']."'");	
 		continue;
 	}
 	
@@ -222,7 +220,7 @@ foreach($result as $r)
 			sleep(2);
 			if(!Shell::IsProcessAlive($r['_last_process_id']))
 			{	
-				Db::Query("UPDATE crawlers SET _last_session_state='killed', _next_start_time=ADDDATE(NOW(), INTERVAL ".RESTART_DELAY_FOR_BROKEN_CRAWLER_IN_SECS." SECOND), _last_end_time=NOW() WHERE id='".$r['crawler_id']."'");
+				Db::Query("UPDATE crawlers SET _last_session_state='killed', _next_start_time=ADDDATE(NOW(), INTERVAL restart_delay_if_broken SECOND), _last_end_time=NOW() WHERE id='".$r['crawler_id']."'");
 				continue;		
 			}
 			Logger::Error("Could not kill $crawler_id");		
