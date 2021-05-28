@@ -35,7 +35,7 @@ abstract class Crawler6 extends Crawler
 		$configuration['MAX_IMAGE_FILE_LENGTH_IN_BYTES'] = 300000;
 		$configuration['MAX_IMAGE_ERROR_GOING_TOGETHER_COUNT'] = 5;
 		$configuration['TIME_INTERVAL_BETWEEN_HTTP_REQUESTS_IN_MSS'] = 3000;
-		$configuration['HTTP_REQUEST_TIMEOUT_IN_SECS'] = 60;
+		//$configuration['HTTP_REQUEST_TIMEOUT_IN_SECS'] = 60;
 		return $configuration;
 	}
 	

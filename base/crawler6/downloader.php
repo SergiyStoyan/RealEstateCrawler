@@ -31,7 +31,9 @@ class Downloader
 		
 		Curler::$RequestDelayInMss = self::$crawler->Get('TIME_INTERVAL_BETWEEN_HTTP_REQUESTS_IN_MSS');
 		self::$curler = new Curler($store_files2disk, $use_cached_files, Constants::CacheDirectory."/".$crawler->Id());
-		self::$curler->TimeoutInSecs = self::$crawler->Get('HTTP_REQUEST_TIMEOUT_IN_SECS');
+		
+		//self::$curler->TimeoutInSecs = self::$crawler->Get('HTTP_REQUEST_TIMEOUT_IN_SECS');
+		if(self::$TimeoutInSecs) self::$curler->TimeoutInSecs = self::$TimeoutInSecs;
 		
 		self::$image_file_section = new FileSection(Constants::ImageDirectory, $crawler->Id(), Engine::CRAWLER_USER_GROUP, $session_start_time);		
 		
@@ -48,8 +50,18 @@ class Downloader
 	
 	static public function SetRequestDelayInMss($delay)
 	{
+		Logger::Write2("Curler::RequestDelayInMss = $delay");
 		Curler::$RequestDelayInMss = $delay;
 	}
+	
+	static public function SetRequestTimeoutInSecs($timeout)
+	{
+		Logger::Write2("Downloader::curler->TimeoutInSecs = $timeout");
+		//if(!self::$curler) throw new Exception("Curler is not initialized yet.");
+		if(self::$curler) self::$curler->TimeoutInSecs = $timeout;
+		else self::$TimeoutInSecs = $timeout;
+	}
+	static $TimeoutInSecs = null;
 	
 	static public function ClearCookies()
 	{

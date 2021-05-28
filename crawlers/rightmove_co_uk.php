@@ -29,7 +29,8 @@ class rightmove_co_uk extends Crawler6_3_sale
 		$this->Initialize_ONLY_NEW_PRODUCTS_CRAWLING();
 		$this->Set('QUEUE_NAMES2SCHEMA/PRODUCT/DROP_ITEM_BRANCH_WHEN_ITEM_COUNT_EXCEEDED/MAX_ITEM_NUMBER', 100);
 		$this->Set('TIME_INTERVAL_BETWEEN_HTTP_REQUESTS_IN_MSS', 10000);
-		$this->Set('HTTP_REQUEST_TIMEOUT_IN_SECS', 120);
+		//$this->Set('HTTP_REQUEST_TIMEOUT_IN_SECS', 120);
+		Downloader::SetRequestTimeoutInSecs(120);	
 	}
 	
 	function GetInitialListItems()
