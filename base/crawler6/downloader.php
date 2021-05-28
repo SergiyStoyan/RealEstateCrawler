@@ -50,13 +50,13 @@ class Downloader
 	
 	static public function SetRequestDelayInMss($delay)
 	{
-		Logger::Write2("Curler::RequestDelayInMss = $delay");
+		Logger::Write("Curler::RequestDelayInMss = $delay");
 		Curler::$RequestDelayInMss = $delay;
 	}
 	
 	static public function SetRequestTimeoutInSecs($timeout)
 	{
-		Logger::Write2("Downloader::curler->TimeoutInSecs = $timeout");
+		Logger::Write("Downloader::curler->TimeoutInSecs = $timeout");
 		//if(!self::$curler) throw new Exception("Curler is not initialized yet.");
 		if(self::$curler) self::$curler->TimeoutInSecs = $timeout;
 		else self::$TimeoutInSecs = $timeout;
