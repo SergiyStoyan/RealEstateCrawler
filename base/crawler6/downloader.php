@@ -33,7 +33,8 @@ class Downloader
 		self::$curler = new Curler($store_files2disk, $use_cached_files, Constants::CacheDirectory."/".$crawler->Id());
 		
 		//self::$curler->TimeoutInSecs = self::$crawler->Get('HTTP_REQUEST_TIMEOUT_IN_SECS');
-		if(self::$TimeoutInSecs) self::$curler->TimeoutInSecs = self::$TimeoutInSecs;
+		if(isset(self::$init_config['TimeoutInSecs'])) self::$curler->TimeoutInSecs = self::$init_config['TimeoutInSecs'];		
+		self::$init_config = null;
 		
 		self::$image_file_section = new FileSection(Constants::ImageDirectory, $crawler->Id(), Engine::CRAWLER_USER_GROUP, $session_start_time);		
 		
@@ -59,9 +60,9 @@ class Downloader
 		Logger::Write("Downloader::curler->TimeoutInSecs = $timeout");
 		//if(!self::$curler) throw new Exception("Curler is not initialized yet.");
 		if(self::$curler) self::$curler->TimeoutInSecs = $timeout;
-		else self::$TimeoutInSecs = $timeout;
+		else self::$init_config['TimeoutInSecs'] = $timeout;
 	}
-	static $TimeoutInSecs = null;
+	static $init_config = array();
 	
 	static public function ClearCookies()
 	{
