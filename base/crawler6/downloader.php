@@ -48,6 +48,7 @@ class Downloader
 	static private $image_file_section;
 	static private $network_error_going_together_counter;
 	static private $image_error_going_together_counter;
+	static private $init_config = array();
 	
 	static public function SetRequestDelayInMss($delay)
 	{
@@ -62,7 +63,6 @@ class Downloader
 		if(self::$curler) self::$curler->TimeoutInSecs = $timeout;
 		else self::$init_config['TimeoutInSecs'] = $timeout;
 	}
-	static $init_config = array();
 	
 	static public function ClearCookies()
 	{
