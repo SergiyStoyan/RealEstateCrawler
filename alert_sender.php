@@ -75,7 +75,7 @@ function send_message($notifications, $state)
 	if(empty($notifications)) return;
 		
 	$client_id = $notifications[0]['client_id'];
-	Logger::Write("Total $state notifications for client_id '$client_id': ".count($notifications));
+	Logger::Write("Total notifications with state=$state for client_id '$client_id': ".count($notifications));
 	
 	$sent_notifications = array();
 	$message = "";
