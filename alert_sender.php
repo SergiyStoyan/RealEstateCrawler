@@ -50,30 +50,32 @@ function process_client_type($client_type)
 		default:
 			Logger::Quit("Unknown client_type '$client_type'.");
 	}
-	$sql = "SELECT filter_id, client_id, product_id, product_agent, product_url, product_image_path, product_description, product_price, product_town, product_status, product_features, product_postcode, matched_types FROM alert_notifications n INNER JOIN alert_clients c ON n.client_id=c.id WHERE _state='new' AND c.type='$client_type' $where2 ORDER BY client_id, found_time DESC, filter_id";	
+	$sql = "SELECT filter_id, client_id, product_id, product_agent, product_url, product_image_path, product_description, product_price, product_town, product_status, product_features, product_postcode, matched_types, _state FROM alert_notifications n INNER JOIN alert_clients c ON n.client_id=c.id WHERE _state IN ('new','error') AND c.type='$client_type' $where2 ORDER BY client_id, _state DESC, found_time DESC, filter_id";	
 		
 	$client_id = false;
+	$state = false;
 	$notifications = array();
 	foreach(Db::GetArray($sql) as $n)
 	{		
-		if($client_id != $n['client_id'])
+		if($client_id != $n['client_id'] or $state != $n['_state'])
 		{
-			send_message($notifications);
+			send_message($notifications, $state);
 			$client_id = $n['client_id'];
+			$state = $n['_state'];
 			$notifications = array();
 		}
 		
 		$notifications[] = $n;
 	}
-	send_message($notifications);
+	send_message($notifications, $state);
 }
 
-function send_message($notifications)
+function send_message($notifications, $state)
 {	
 	if(empty($notifications)) return;
 		
 	$client_id = $notifications[0]['client_id'];
-	Logger::Write("Total notifications number for client_id '$client_id': ".count($notifications));
+	Logger::Write("Total $state notifications for client_id '$client_id': ".count($notifications));
 	
 	$sent_notifications = array();
 	$message = "";
@@ -120,8 +122,11 @@ function send_message($notifications)
 		else
 		{
 			Logger::Error("Can't email to $emails");
-			$state = 'error';
+			$state = $state != 'error' ? 'error' : 'error2';
+			if($state == 'error2')
+				mail(Constants::AdminEmail, "Crawler system: error by alert_sender", "Could not email alert notification to $emails") or Logger::Error("Could not email to Constants::AdminEmail");
 		}
+		sleep(10);//to avoid overflowing(?)
 		
 		foreach($sent_notifications as $n)
 		{

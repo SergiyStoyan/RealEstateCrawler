@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `alert_filters` (
 CREATE TABLE IF NOT EXISTS `alert_notifications` (
   `filter_id` int NOT NULL,
   `client_id` int NOT NULL,
-  `_state` enum ('new','sent','omitted','error') NOT NULL,
+  `_state` enum ('new','sent','omitted','error','error2') NOT NULL,
   `found_time` datetime NOT NULL,
   `sent_time` datetime,
   `product_id` varchar(256) NOT NULL,

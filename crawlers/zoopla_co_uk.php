@@ -29,6 +29,7 @@ class zoopla_co_uk extends Crawler6_3_sale
 		$this->Initialize_ONLY_NEW_PRODUCTS_CRAWLING();
 		$this->Set('QUEUE_NAMES2SCHEMA/PRODUCT/DROP_ITEM_BRANCH_WHEN_ITEM_COUNT_EXCEEDED/MAX_ITEM_NUMBER', 1000);
 		$this->Set('TIME_INTERVAL_BETWEEN_HTTP_REQUESTS_IN_MSS', 10000);
+		Downloader::SetRequestTimeoutInSecs(120);	
 	}
 		
 	function GetInitialListItems()
@@ -67,7 +68,7 @@ class zoopla_co_uk extends Crawler6_3_sale
 		$headline = Downloader::Xpath()->GetJoinedInnerHtml('//*[@data-testid="price"]')."   <br>   ".Downloader::Xpath()->GetJoinedInnerHtml('//*[@data-testid="title-label"]');
 		$description = Downloader::Xpath()->GetJoinedInnerHtml('//*[@data-testid="page_features_section"]');		
 		$address = Downloader::Xpath()->GetJoinedInnerHtml('//*[@data-testid="address-label"]');		
-		$agent = Downloader::Xpath()->GetJoinedInnerHtml('//*[@data-testid="agent-details"]/div/h3');
+		$agent = Downloader::Xpath()->GetJoinedInnerHtml('//*[@data-testid="agent-details"]/div/p');
 		if(preg_match("@(.*?)\<@is", $agent, $res))
 			$agent = $res[1];			
 		//$agent = Downloader::Xpath()->GetJoinedInnerHtml('//*[@class="dp-sidebar-wrapper__contact"]');

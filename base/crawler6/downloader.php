@@ -48,7 +48,7 @@ class Downloader
 	static private $image_file_section;
 	static private $network_error_going_together_counter;
 	static private $image_error_going_together_counter;
-	static private $init_config = array();
+	static private $init_config = array('TimeoutInSecs'=>120);
 	
 	static public function SetRequestDelayInMss($delay)
 	{
