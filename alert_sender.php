@@ -126,7 +126,7 @@ function send_message($notifications, $state)
 			//if($state == 'error2')
 			//	mail(Constants::AdminEmail, "Crawler system: error by alert_sender", "Could not email alert notification to $emails") or Logger::Error("Could not email to Constants::AdminEmail");
 		}
-		sleep(10);//to avoid overflowing(?)
+		sleep(120);//to avoid overflowing(?)
 		
 		foreach($sent_notifications as $n)
 		{
