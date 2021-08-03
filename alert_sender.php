@@ -116,15 +116,15 @@ function send_message($notifications, $state)
 		$emails = $client['emails'];				
 		if(mail($emails, $subject, $message, implode("\r\n", $additional_headers), $return_path)) 
 		{
-			Logger::Write("An alert with $notification_count notifications was sent to $emails");
+			Logger::Write("An alert with $notification_count notifications was sent to the client #$client_id");
 			$state = 'sent';
 		}
 		else
 		{
 			Logger::Error("Can't email to $emails");
 			$state = $state != 'error' ? 'error' : 'error2';
-			//if($state == 'error2')
-			//	mail(Constants::AdminEmail, "Crawler system: error by alert_sender", "Could not email alert notification to $emails") or Logger::Error("Could not email to Constants::AdminEmail");
+			if($state == 'error2')
+				mail(Constants::AdminEmail, "Crawler system: error by alert_sender", "Could not email alert notification to $emails (client: $client_id)") or Logger::Error("Could not email to Constants::AdminEmail");
 		}
 		sleep(120);//to avoid overflowing(?)
 		
