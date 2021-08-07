@@ -114,7 +114,7 @@ function send_message($notifications)
 		
 		$emails = $client['emails'];	
 		$state = false;			
-		Logger::Write("Sending an alert with $sent_count notifications to the client #$client_id...");
+		Logger::Write("Sending an alert with $sent_count notifications...");
 		if(mail($emails, $subject, $message, implode("\r\n", $additional_headers), $return_path)) 
 		{
 			$state = 'sent';
