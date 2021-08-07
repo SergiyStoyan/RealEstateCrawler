@@ -22,22 +22,23 @@ CREATE TABLE IF NOT EXISTS `alert_filters` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
     
 CREATE TABLE IF NOT EXISTS `alert_notifications` (
-  `filter_id` int NOT NULL,
-  `client_id` int NOT NULL,
-  `_state` enum ('new','sent','omitted','error','error2') NOT NULL,
+  `try_count` tinyint(3) unsigned NOT NULL,
+  `filter_id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `_state` enum('new','sent','omitted','error') NOT NULL,
   `found_time` datetime NOT NULL,
-  `sent_time` datetime,
+  `sent_time` datetime DEFAULT NULL,
   `product_id` varchar(256) NOT NULL,
   `product_change_time` datetime NOT NULL,
   `product_town` varchar(32) NOT NULL,
   `product_status` varchar(256) NOT NULL,
   `product_features` varchar(256) NOT NULL,
-  `product_postcode` varchar(10) NOT NULL,  
+  `product_postcode` varchar(10) NOT NULL,
   `product_agent` varchar(256) NOT NULL,
   `product_url` varchar(256) NOT NULL,
   `product_image_path` varchar(256) NOT NULL,
   `product_description` varchar(256) NOT NULL,
-  `product_price` int NOT NULL,
+  `product_price` int(11) NOT NULL,
   `matched_types` varchar(256) NOT NULL,
-  PRIMARY KEY (`client_id`, `product_id`)
+  PRIMARY KEY (`client_id`,`product_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;

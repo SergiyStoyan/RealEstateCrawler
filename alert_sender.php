@@ -26,6 +26,7 @@ include_once("$ABSPATH/common/db.php");
 include_once("$ABSPATH/base/crawler6/table_routines.php");
 
 const MAX_PRODUCTS_NUMBER_PER_EMAIL = 50;
+const MAX_TRY_COUNT = 2;
 const SENDER_EMAIL = "deals@yourdealsdetective.co.uk";
 const ADMIN_EMAILS = "support@tycoonsystem.com";
 
@@ -50,37 +51,37 @@ function process_client_type($client_type)
 		default:
 			Logger::Quit("Unknown client_type '$client_type'.");
 	}
-	$sql = "SELECT filter_id, client_id, product_id, product_agent, product_url, product_image_path, product_description, product_price, product_town, product_status, product_features, product_postcode, matched_types, _state FROM alert_notifications n INNER JOIN alert_clients c ON n.client_id=c.id WHERE _state IN ('new','error') AND c.type='$client_type' $where2 ORDER BY client_id, _state DESC, found_time DESC, filter_id";	
+	$sql = "SELECT filter_id, client_id, product_id, product_agent, product_url, product_image_path, product_description, product_price, product_town, product_status, product_features, product_postcode, matched_types, _state, try_count FROM alert_notifications n INNER JOIN alert_clients c ON n.client_id=c.id WHERE _state<>'sent' AND try_count<".MAX_TRY_COUNT." AND c.type='$client_type' $where2 ORDER BY client_id, _state DESC, found_time DESC, filter_id";	
 		
 	$client_id = false;
-	$state = false;
 	$notifications = array();
 	foreach(Db::GetArray($sql) as $n)
 	{		
-		if($client_id != $n['client_id'] or $state != $n['_state'])
+		if($client_id != $n['client_id'])
 		{
-			send_message($notifications, $state);
+			send_message($notifications);		
+			sleep(1);//to avoid overflowing(?)
+			
 			$client_id = $n['client_id'];
-			$state = $n['_state'];
 			$notifications = array();
 		}
 		
 		$notifications[] = $n;
 	}
-	send_message($notifications, $state);
+	send_message($notifications);
 }
 
-function send_message($notifications, $state)
+function send_message($notifications)
 {	
 	if(empty($notifications)) return;
 		
 	$client_id = $notifications[0]['client_id'];
-	Logger::Write("Total notifications with state=$state for client_id '$client_id': ".count($notifications));
+	Logger::Write("Total notifications for client #$client_id: ".count($notifications));
 	
 	$sent_notifications = array();
 	$message = "";
 	$filter_id = false;
-	$notification_count = 0;
+	$sent_count = 0;
 	foreach($notifications as $n)
 	{
 		if($filter_id != $n['filter_id'])
@@ -89,57 +90,59 @@ function send_message($notifications, $state)
 			$filter_state = Db::GetSingleValue("SELECT state FROM alert_filters WHERE id='$filter_id'");
 			//add_filter2message($message, $n);
 		}	
-		if($filter_state != 'active') continue;
-		if(++$notification_count >= MAX_PRODUCTS_NUMBER_PER_EMAIL) break;		
+		if($filter_state != 'active') continue;	
 		$sent_notifications[] = $n;
+		if(++$sent_count >= MAX_PRODUCTS_NUMBER_PER_EMAIL) break;	
 		
 		add_notification2message($message, $n['product_image_path'], $n['product_town'], $n['product_status'], $n['product_features'], $n['product_postcode'], $n['product_price'], $n['product_description'], $n['matched_types'], $n['product_agent'], $n['product_url']);
 		
 		add_filter2message($message, $n);
 	}
 	
-	if($notification_count)
+	if($sent_count)
 	{
 		$client = Db::GetRowArray("SELECT emails, name FROM alert_clients WHERE id='$client_id'");
-		complete_message($message, $client['name'], $notification_count);
+		complete_message($message, $client['name'], $sent_count);
 		
-		$subject = "Deals Detective: ".$client['name'].", $notification_count new property leads as of ".date("Y-m-d");
+		$subject = "Deals Detective: ".$client['name'].", $sent_count new property leads as of ".date("Y-m-d");
 		$additional_headers   = array();
 		$additional_headers[] = "MIME-Version: 1.0";
 		$additional_headers[] = "Content-type: text/html; charset=iso-8859-1";
-		$additional_headers[] = "From: Your Deals Detective <".SENDER_EMAIL.">";
-		//$additional_headers[] = "Cc: ".ADMIN_EMAILS;
+		//$additional_headers[] = "From: Your Deals Detective <".SENDER_EMAIL.">";- does not work with deals@yourdealsdetective.co.uk
 		$additional_headers[] = "Bcc: ".ADMIN_EMAILS;
-		//$additional_headers[] = "Reply-To: Recipient Name <receiver@domain3.com>";
 		$return_path = "-f ".SENDER_EMAIL;
 		
-		$emails = $client['emails'];				
+		$emails = $client['emails'];	
+		$state = false;			
+		Logger::Write("Sending an alert with $sent_count notifications to the client #$client_id...");
 		if(mail($emails, $subject, $message, implode("\r\n", $additional_headers), $return_path)) 
 		{
-			Logger::Write("An alert with $notification_count notifications was sent to the client #$client_id");
 			$state = 'sent';
 		}
 		else
-		{
-			Logger::Error("Can't email to $emails");
-			$state = $state != 'error' ? 'error' : 'error2';
-			if($state == 'error2')
-				mail(Constants::AdminEmail, "Crawler system: error by alert_sender", "Could not email alert notification to $emails (client: $client_id)") or Logger::Error("Could not email to Constants::AdminEmail");
+		{				
+			Logger::Error("Failed to send to $emails");
+			$state = 'error';
 		}
-		sleep(120);//to avoid overflowing(?)
 		
+		$alert = false;
 		foreach($sent_notifications as $n)
 		{
-	 		Db::SmartQuery("UPDATE alert_notifications SET _state='$state', sent_time=NOW() WHERE client_id='".$n['client_id']."' AND product_id='".$n['product_id']."'") or Logger::Quit("Can't update.");
+	 		Db::SmartQuery("UPDATE alert_notifications SET _state='$state', sent_time=NOW(), try_count=try_count + 1 WHERE client_id='".$n['client_id']."' AND product_id='".$n['product_id']."'") or Logger::Quit("Can't update.");
+			
+			if($state == 'error' and $n['try_count'] >= MAX_TRY_COUNT) $alert = true; 
 		}
+		if($alert) mail(Constants::AdminEmail, "Crawler system: error by alert_sender", "Could not email a alert notification to $emails (client #$client_id)") or Logger::Error("Could not email to Constants::AdminEmail");
 	}
-	else Logger::Write("No notifications to send.");
 	
+	$omitted_count = 0;
 	foreach($notifications as $n)
 	{
 		if(in_array($n, $sent_notifications)) continue;
- 		Db::SmartQuery("UPDATE alert_notifications SET _state='omitted', sent_time=NOW() WHERE client_id='".$n['client_id']."' AND product_id='".$n['product_id']."'") or Logger::Quit("Can't update.");
+ 		Db::SmartQuery("UPDATE alert_notifications SET _state='omitted', sent_time=NOW(), try_count=try_count + 1 WHERE client_id='".$n['client_id']."' AND product_id='".$n['product_id']."'") or Logger::Quit("Can't update.");
+		$omitted_count++;
 	}
+	if($omitted_count) Logger::Write("Omitted notifications: $omitted_count");
 }
 
 function add_filter2message(&$message, $n)
