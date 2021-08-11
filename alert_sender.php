@@ -109,10 +109,11 @@ function send_message($notifications)
 		$additional_headers[] = "MIME-Version: 1.0";
 		$additional_headers[] = "Content-type: text/html; charset=iso-8859-1";
 		//$additional_headers[] = "From: Your Deals Detective <".SENDER_EMAIL.">";- does not work with deals@yourdealsdetective.co.uk
+		$additional_headers[] = "Reply-To: Your Deals Detective <".SENDER_EMAIL.">";
 		$additional_headers[] = "Bcc: ".ADMIN_EMAILS;
 		$return_path = "-f ".SENDER_EMAIL;
 		
-		$emails = $client['emails'];	
+		$emails = $client['emails'];
 		$state = false;			
 		Logger::Write("Sending an alert with $sent_count notifications...");
 		if(mail($emails, $subject, $message, implode("\r\n", $additional_headers), $return_path)) 
