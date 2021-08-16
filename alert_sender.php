@@ -108,7 +108,7 @@ function send_message($notifications)
 		$additional_headers   = array();
 		$additional_headers[] = "MIME-Version: 1.0";
 		$additional_headers[] = "Content-type: text/html; charset=iso-8859-1";
-		$additional_headers[] = "From: Your Deals Detective <".SENDER_EMAIL.">";
+		//$additional_headers[] = "From: Your Deals Detective <".SENDER_EMAIL.">";
 		$additional_headers[] = "Reply-To: Your Deals Detective <".SENDER_EMAIL.">";
 		$additional_headers[] = "Bcc: ".ADMIN_EMAILS;
 		$return_path = "-f ".SENDER_EMAIL;
