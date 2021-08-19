@@ -27,7 +27,8 @@ include_once("$ABSPATH/base/crawler6/table_routines.php");
 
 const MAX_PRODUCTS_NUMBER_PER_EMAIL = 50;
 const MAX_TRY_COUNT = 2;
-const SENDER_EMAIL = "mavee.rea@gmail.com";//"deals@yourdealsdetective.co.uk";- does not work in the FROM clause
+const SENDER_EMAIL = "deals@yourdealsdetective.co.uk";
+const REPLY_TO_EMAIL = "mavee.rea@gmail.com";//"deals@yourdealsdetective.co.uk";
 const ADMIN_EMAILS = "support@tycoonsystem.com";
 
 Logger::Write2("Process owner: ".Shell::GetProcessOwner());
@@ -108,9 +109,10 @@ function send_message($notifications)
 		$additional_headers   = array();
 		$additional_headers[] = "MIME-Version: 1.0";
 		$additional_headers[] = "Content-type: text/html; charset=iso-8859-1";
-		//$additional_headers[] = "From: Your Deals Detective <".SENDER_EMAIL.">";
-		$additional_headers[] = "Reply-To: Your Deals Detective <".SENDER_EMAIL.">";
+		//$additional_headers[] = "From: Your Deals Detective <".SENDER_EMAIL.">";//blocked by the server if deals@yourdealsdetective.co.uk
+		$additional_headers[] = "Reply-To: Your Deals Detective <".REPLY_TO_EMAIL.">";
 		$additional_headers[] = "Bcc: ".ADMIN_EMAILS;
+		//$additional_headers[] = "Return-Path: Your Deals Detective <".SENDER_EMAIL.">";
 		$return_path = "-f ".SENDER_EMAIL;
 		
 		$emails = $client['emails'];
