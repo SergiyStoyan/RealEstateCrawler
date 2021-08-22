@@ -18,7 +18,7 @@ class ProductRequest extends Request
 	
 	public static function Restore($seed)
 	{
-		return new ProductRequest("http://www.rightmove.co.uk/properties/$seed");
+		return new ProductRequest("https://www.rightmove.co.uk/properties/$seed");
 	}		
 }
 
@@ -35,7 +35,7 @@ class rightmove_co_uk extends Crawler6_3_sale
 	
 	function GetInitialListItems()
 	{	
-		Downloader::Get2("http://www.rightmove.co.uk/major-cities.html") or $this->Engine()->ExitOnError("Cannot get initial page.");
+		Downloader::Get2("https://www.rightmove.co.uk/major-cities.html") or $this->Engine()->ExitOnError("Cannot get initial page.");
 		$us = Downloader::Regex()->ExtractUrls("@property-for-sale/\w+\.html$@i");
 		foreach($us as $u) $init_urls[] = "$u?sortType=6";
 		//Logger::Write2($init_urls);
@@ -52,7 +52,7 @@ class rightmove_co_uk extends Crawler6_3_sale
 	
 	function GetProductItemsFromListPage()
 	{
-		return Downloader::Regex()->ExtractUrls("@properties/\d{2,}$@i");
+		return Downloader::Regex()->ExtractUrls("@properties/\d{2,}($|\#)@i");
 	}
 				
 	function ParseProductPage(
