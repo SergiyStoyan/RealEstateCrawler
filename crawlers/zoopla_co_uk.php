@@ -61,6 +61,8 @@ class zoopla_co_uk extends Crawler6_3_sale
 		&$agent
 	)
 	{	
+		if(!Downloader::Response()->Regex()->ExtractValueFromResponseUrl("@for-sale/details/(.*?)(\&|\?|$)@is"))//expired and redirected to a directory
+			return false;
 		$id = Downloader::Request()->Seed();
 		//$image_url = Downloader::Xpath()->ExtractImageUrl("//img[@itemprop='photo']");	
 		$image_url = false;	
@@ -68,7 +70,7 @@ class zoopla_co_uk extends Crawler6_3_sale
 		$headline = Downloader::Xpath()->GetJoinedInnerHtml('//*[@data-testid="price"]')."   <br>   ".Downloader::Xpath()->GetJoinedInnerHtml('//*[@data-testid="title-label"]');
 		$description = Downloader::Xpath()->GetJoinedInnerHtml('//*[@data-testid="page_features_section"]');		
 		$address = Downloader::Xpath()->GetJoinedInnerHtml('//*[@data-testid="address-label"]');		
-		$agent = Downloader::Xpath()->GetJoinedInnerHtml('//*[@data-testid="agent-details"]/div/p');
+		$agent = Downloader::Xpath()->GetJoinedInnerHtml('//*[@data-testid="agent-details"]/div/div/p');
 		if(preg_match("@(.*?)\<@is", $agent, $res))
 			$agent = $res[1];			
 		//$agent = Downloader::Xpath()->GetJoinedInnerHtml('//*[@class="dp-sidebar-wrapper__contact"]');
