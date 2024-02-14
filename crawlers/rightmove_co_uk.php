@@ -70,7 +70,7 @@ class rightmove_co_uk extends Crawler6_3_sale
 		
 		$headline =	Downloader::Xpath()->GetAttributeValue('//meta[@property="og:description"]', 'content');
 			
-		$description = Downloader::Xpath()->GetJoinedInnerHtml('//article[./div/h2[contains(text(), "description")]]');
+		$description = Downloader::Xpath()->GetJoinedInnerHtml('//article[./div/h2[contains(text(), "Description")]]');
 			
 		//$address = Downloader::Xpath()->GetJoinedInnerHtml('//div[@itemprop="address"]');
 		$address = Downloader::Xpath()->GetJoinedInnerHtml('//head/title');
